@@ -1,0 +1,6 @@
+*.bak
+desktop.ini
+*.bak
+/IPcam/.vs/* 
+/IPcam/obj/*
+/IPcam/bin/*
