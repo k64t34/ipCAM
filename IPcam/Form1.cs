@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Drawing;
-
+using System.Diagnostics;
 
 namespace IPcam
 {
@@ -18,6 +18,7 @@ namespace IPcam
         public string PathDB = Path.GetDirectoryName(Application.ExecutablePath);
         public System.Data.OleDb.OleDbConnection Conn = new System.Data.OleDb.OleDbConnection();
         public OleDbDataAdapter adapter;
+        public string[] CamStream = new string[3];
         public Form1()
         {
             InitializeComponent();
@@ -40,7 +41,7 @@ namespace IPcam
             PathDB = System.IO.Directory.GetParent(PathDB).ToString();
             PathDB += @"\DB";
 #endif
-            
+            this.Text = this.Text + " " + PathDB;
             Conn.ConnectionString = @"Provider = Microsoft.Jet.OLEDB.4.0;" +
                 @"Data source = "+ PathDB + ";" + 
                 @"Extended Properties = ""text;HDR=YES;FMT=Delimited"";";
@@ -68,45 +69,119 @@ namespace IPcam
                 dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
                 dataGridView1.AllowUserToResizeRows = false;
                 dataGridView1.BorderStyle = BorderStyle.None;
-                dataGridView1.DataSource = dataSet1.Tables[0];                
+                dataGridView1.DataSource = dataSet1.Tables[0];
                 dataGridView1.Columns[1].DataPropertyName = "title";
-            }
-		        catch (Exception ex)
-		    {
-		        MessageBox.Show("Ошибка подключения к базе данных\n"+ex.Message+
-                    "\n  "+ Conn.ConnectionString
+                dataGridView1.Columns[0].DataPropertyName = "id";                
+                dataGridView1.CurrentCellChanged += new System.EventHandler(DataGridView1CurrentCellChanged);
+                DataGridView1CurrentCellChanged(dataGridView1,null);
 
-                    , "Установка ПО",MessageBoxButtons.OK,MessageBoxIcon.Error);		        
+
+
+
+            }
+            catch (Exception ex)
+		    {
+		        MessageBox.Show("Ошибка подключения к базе данных\n"+ex.Message+"\n  "+ ex.Source+"\n"+ Conn.ConnectionString, "Установка ПО",MessageBoxButtons.OK,MessageBoxIcon.Error);		        
 		        Close();
             }
 		    finally
 		    {
-		        Conn.Close();
+		        
 		    }
                                  
         }
 
-        private void bindingSource1_CurrentChanged_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void camcsvBindingSource1_CurrentChanged(object sender, EventArgs e)
-        {
-
-        }
+       
 
         private void button_OK_Click(object sender, EventArgs e)
         {
-            //TODO: RUN VLC
+
+
+            ProcessStartInfo ProcessInfo;
+            Process Process;
+            ProcessInfo = new ProcessStartInfo();
+            ProcessInfo.Arguments = "--no-repeat "+ CamStream[0].ToString()+" "+ CamStream[1].ToString() + " "+ CamStream[2].ToString();
+            ProcessInfo.WorkingDirectory = @"c:\Program Files\VideoLAN\VLC\vlc.exe";
+            ProcessInfo.FileName = "vlc.exe";            
+            try
+            {
+                Process = Process.Start(ProcessInfo);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка запуска\n" + ex.Message,"", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+
+            }
+
+            Conn.Close();
             Close();
         }
 
-        private void dataGridView1_RowEnter(object sender, DataGridViewCellEventArgs e)
-        {
-            //label1.Text = dataSet1.Tables[0].Rows[dataSet1.Tables[0].Columns.IndexOf("title")].ToString();
-            label1.Text = "as";// Convert.ToString(dataGridView1.CurrentRow.Cells[0].Size);
+
+        void DataGridView1CurrentCellChanged(object sender, EventArgs e)
+        {         
+                    OleDbDataReader rs;
+            OleDbCommand cmd = new OleDbCommand();
+            cmd.Connection = Conn;
+            cmd.CommandText= @"select * from cam.csv where id=" + dataGridView1.CurrentRow.Cells[0].Value ;
+
+            try
+            {
+                rs = cmd.ExecuteReader(CommandBehavior.SingleResult);
+                rs.Read();
+                label1.Text = String.Format("{0}\nid={1}\nIP={2}\nhostname={3}\n",
+                        dataGridView1.CurrentRow.Cells[1].Value,
+                    dataGridView1.CurrentRow.Cells[0].Value,
+                    rs["ip"],
+                    rs["hostname"]
+                        );
+                CamStream[1] = ""; CamStream[2] = "";
+                CamStream[0] = rs["protocol"].ToString();
+                CamStream[0] = EliminateEnclosingQuotes(CamStream[0], '\'');
+
+                if (CamStream[0].Contains(@"[IP]"))
+                {
+                    
+                    CamStream[0]=CamStream[0].Replace(@"[IP]", rs["ip"].ToString());
+                    
+                }
+
+                     
+
+
+                rs.Close();
+                cmd.Dispose();
+                cmd = new OleDbCommand();
+                cmd.Connection = Conn;
+                cmd.CommandText = @"select u.hostname,protocol from stream.csv as s left join hub.csv as u on s.idHub=u.id where idCam=" + dataGridView1.CurrentRow.Cells[0].Value;
+                rs = cmd.ExecuteReader();
+                int i = 0;
+                while (rs.Read())
+                {
+                    CamStream[i + 1] = CamStream[i];
+                    CamStream[i] = "http://"+ rs["hostname"].ToString()+":8008/"+rs["protocol"].ToString();
+                    i++;
+                }
+                
+                label1.Text += CamStream[0] + "\n" + CamStream[1] + "\n" + CamStream[2];
+                rs.Close();
+            }
+            catch (Exception ex) 
+            {
+                MessageBox.Show("Ошибка\n" + ex.Message + "\n  " + ex.Source + "\n", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }            
         }
+        public string EliminateEnclosingQuotes(string str,char Quotes='"')
+        {
+            str = str.TrimStart(Quotes);
+            str = str.TrimEnd(Quotes);
+            return str;
+        }
+
+
     }
 }
 

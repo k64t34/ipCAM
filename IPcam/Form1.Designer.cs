@@ -44,7 +44,7 @@
             // 
             this.checkBox_AddToDesktop.AutoSize = true;
             this.checkBox_AddToDesktop.Enabled = false;
-            this.checkBox_AddToDesktop.Location = new System.Drawing.Point(392, 3);
+            this.checkBox_AddToDesktop.Location = new System.Drawing.Point(396, 289);
             this.checkBox_AddToDesktop.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox_AddToDesktop.Name = "checkBox_AddToDesktop";
             this.checkBox_AddToDesktop.Size = new System.Drawing.Size(219, 22);
@@ -56,7 +56,7 @@
             // 
             this.checkBox_AutoStart.AutoSize = true;
             this.checkBox_AutoStart.Enabled = false;
-            this.checkBox_AutoStart.Location = new System.Drawing.Point(392, 33);
+            this.checkBox_AutoStart.Location = new System.Drawing.Point(396, 319);
             this.checkBox_AutoStart.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox_AutoStart.Name = "checkBox_AutoStart";
             this.checkBox_AutoStart.Size = new System.Drawing.Size(124, 22);
@@ -74,12 +74,12 @@
             this.Title});
             this.dataGridView1.Location = new System.Drawing.Point(2, 3);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 32;
             this.dataGridView1.Size = new System.Drawing.Size(382, 338);
             this.dataGridView1.TabIndex = 3;
-            this.dataGridView1.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_RowEnter);
             // 
             // id
             // 
@@ -113,31 +113,30 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(391, 215);
+            this.label1.Location = new System.Drawing.Point(391, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(145, 126);
+            this.label1.Size = new System.Drawing.Size(224, 18);
             this.label1.TabIndex = 5;
-            this.label1.Text = "sdfggfds sgdsfgdsg\r\nsgsdfgsgf\r\nfdgsggfdsfg\r\nsgfsgsdgf\r\nsdfgsdgffdsg\r\nsfdgsdfgdsfg" +
-    "\r\nsgfdsdffdg";
+            this.label1.Text = "Дополнительная информация";
             // 
             // Form1
             // 
             this.AcceptButton = this.button_OK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(624, 442);
-            this.ControlBox = false;
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button_OK);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.checkBox_AutoStart);
             this.Controls.Add(this.checkBox_AddToDesktop);
-            this.Font = new System.Drawing.Font("Rod", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Form1";
-            this.ShowIcon = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "IP cam";
             this.Load += new System.EventHandler(this.Form1_Load);
