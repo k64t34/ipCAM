@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.checkBox_AddToDesktop = new System.Windows.Forms.CheckBox();
             this.checkBox_AutoStart = new System.Windows.Forms.CheckBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -36,6 +37,7 @@
             this.dataSet1 = new System.Data.DataSet();
             this.button_OK = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.listBox_LOG = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet1)).BeginInit();
             this.SuspendLayout();
@@ -43,8 +45,7 @@
             // checkBox_AddToDesktop
             // 
             this.checkBox_AddToDesktop.AutoSize = true;
-            this.checkBox_AddToDesktop.Enabled = false;
-            this.checkBox_AddToDesktop.Location = new System.Drawing.Point(396, 289);
+            this.checkBox_AddToDesktop.Location = new System.Drawing.Point(2, 349);
             this.checkBox_AddToDesktop.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox_AddToDesktop.Name = "checkBox_AddToDesktop";
             this.checkBox_AddToDesktop.Size = new System.Drawing.Size(219, 22);
@@ -55,8 +56,7 @@
             // checkBox_AutoStart
             // 
             this.checkBox_AutoStart.AutoSize = true;
-            this.checkBox_AutoStart.Enabled = false;
-            this.checkBox_AutoStart.Location = new System.Drawing.Point(396, 319);
+            this.checkBox_AutoStart.Location = new System.Drawing.Point(2, 379);
             this.checkBox_AutoStart.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox_AutoStart.Name = "checkBox_AutoStart";
             this.checkBox_AutoStart.Size = new System.Drawing.Size(124, 22);
@@ -101,7 +101,8 @@
             // 
             // button_OK
             // 
-            this.button_OK.Location = new System.Drawing.Point(222, 390);
+            this.button_OK.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_OK.Location = new System.Drawing.Point(310, 520);
             this.button_OK.Margin = new System.Windows.Forms.Padding(4);
             this.button_OK.Name = "button_OK";
             this.button_OK.Size = new System.Drawing.Size(162, 28);
@@ -119,19 +120,32 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "Дополнительная информация";
             // 
+            // listBox_LOG
+            // 
+            this.listBox_LOG.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.listBox_LOG.FormattingEnabled = true;
+            this.listBox_LOG.HorizontalScrollbar = true;
+            this.listBox_LOG.ItemHeight = 18;
+            this.listBox_LOG.Location = new System.Drawing.Point(400, 155);
+            this.listBox_LOG.Name = "listBox_LOG";
+            this.listBox_LOG.Size = new System.Drawing.Size(372, 328);
+            this.listBox_LOG.TabIndex = 7;
+            // 
             // Form1
             // 
             this.AcceptButton = this.button_OK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(624, 442);
+            this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.listBox_LOG);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button_OK);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.checkBox_AutoStart);
             this.Controls.Add(this.checkBox_AddToDesktop);
             this.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -157,6 +171,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Title;
         private System.Windows.Forms.Button button_OK;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ListBox listBox_LOG;
     }
 }
 

@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using System.IO;
 using System.Drawing;
 using System.Diagnostics;
+using IWshRuntimeLibrary;
+using Microsoft.Win32;
 
 namespace IPcam
 {
@@ -19,6 +21,9 @@ namespace IPcam
         public System.Data.OleDb.OleDbConnection Conn = new System.Data.OleDb.OleDbConnection();
         public OleDbDataAdapter adapter;
         public string[] CamStream = new string[3];
+        const string vlc_cmd_line = " --no-repeat ";
+        const string vlc_exe = "vlc.exe";
+        string FolderVLC= @"c:\Program Files\VideoLAN\VLC\";
         public Form1()
         {
             InitializeComponent();
@@ -31,11 +36,17 @@ namespace IPcam
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            Version version = assembly.GetName().Version;
+            this.Text = this.Text + " " + version.ToString();
+
+			
             //PathDB = @"\\fs1-oduyu\СПАК\Эксплуатация\IPcam";
             //PathDB = @"D:\Users\Andrew\Documents\Projects\ipCAM\IPcam";
             //PathDB = @"\\t90\tmp";
 #if DEBUG
-          
+
             PathDB = System.IO.Directory.GetParent(PathDB).ToString();
             PathDB = System.IO.Directory.GetParent(PathDB).ToString();
             PathDB = System.IO.Directory.GetParent(PathDB).ToString();
@@ -95,13 +106,84 @@ namespace IPcam
 
         private void button_OK_Click(object sender, EventArgs e)
         {
+            listBox_LOG.Items.Add("Поиск в реестре записей об установленном плеере VLC");
+            //Read registry to find  path to VLC player
+            //Компьютер\HKEY_LOCAL_MACHINE\SOFTWARE\VideoLAN\VLC            
+            //https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.win32.registrykey?view=netframework-4.8            
+            bool needInstalVLC = false;
 
-
+            needInstalVLC = true;
+            RegistryKey VLCKey = Registry.LocalMachine.OpenSubKey(@"software\videolan\vlc");
+            if (VLCKey != null) 
+            { 
+                RegistryValueKind rvkInstallDir = VLCKey.GetValueKind("InstallDir");
+                if (rvkInstallDir == RegistryValueKind.String)
+                {
+                    string vInstallDir = VLCKey.GetValue("InstallDir").ToString();
+                    if (vInstallDir != null)
+                    {
+                        if (Directory.Exists(vInstallDir))
+                        {
+                            if (System.IO.File.Exists(vInstallDir + "\\" + vlc_exe))
+                            { 
+                            FolderVLC = vInstallDir;
+                            needInstalVLC = false;
+                            }
+                        }
+                    }
+                }
+            }
+            if (needInstalVLC)//Компьютер\HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\VideoLAN\VLC
+            {
+                VLCKey = Registry.LocalMachine.OpenSubKey(@"software\WOW6432Node\videolan\vlc");
+                if (VLCKey != null)
+                {
+                    RegistryValueKind rvkInstallDir = VLCKey.GetValueKind("InstallDir");
+                    if (rvkInstallDir == RegistryValueKind.String)
+                    {
+                        string vInstallDir = VLCKey.GetValue("InstallDir").ToString();
+                        if (vInstallDir != null)
+                        {
+                            if (Directory.Exists(vInstallDir))
+                            {
+                                if (System.IO.File.Exists(vInstallDir + "\\" + vlc_exe))
+                                {
+                                    FolderVLC = vInstallDir;
+                                    needInstalVLC = false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             ProcessStartInfo ProcessInfo;
             Process Process;
+            if (needInstalVLC) {
+                listBox_LOG.Items.Add("Установка плеера VLC");//Instal VLC player            
+                ProcessInfo = new ProcessStartInfo();
+            ProcessInfo.Arguments = " /L=1033 /s";
+#if DEBUG
+                PathDB = @"\\fs1-oduyu\СПАК\Эксплуатация\IPcam";
+#endif
+
+                ProcessInfo.WorkingDirectory = PathDB + "\\distrib\\";
+            ProcessInfo.FileName = "vlc-3.0.7.1-win32.exe";
+                listBox_LOG.Items.Add("\t"+ ProcessInfo.WorkingDirectory+ ProcessInfo.FileName+" "+ ProcessInfo.Arguments);//Instal VLC player            
+                try
+                {
+                    Process = Process.Start(ProcessInfo);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка установки VLC player\n" + ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+
+
             ProcessInfo = new ProcessStartInfo();
-            ProcessInfo.Arguments = "--no-repeat "+ CamStream[0].ToString()+" "+ CamStream[1].ToString() + " "+ CamStream[2].ToString();
-            ProcessInfo.WorkingDirectory = @"c:\Program Files\VideoLAN\VLC\vlc.exe";
+            ProcessInfo.Arguments = vlc_cmd_line + CamStream[0].ToString()+" "+ CamStream[1].ToString() + " "+ CamStream[2].ToString();
+            ProcessInfo.WorkingDirectory = FolderVLC;
             ProcessInfo.FileName = "vlc.exe";            
             try
             {
@@ -113,6 +195,30 @@ namespace IPcam
             }
             finally
             {
+
+            }
+            if (checkBox_AddToDesktop.Checked)
+            {
+                WshShell shell = new WshShell();
+                IWshShortcut shortcut = shell.CreateShortcut(System.Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory)+"\\"+ dataGridView1.CurrentRow.Cells[1].Value.ToString()+".lnk");
+                shortcut.Description = dataGridView1.CurrentRow.Cells[1].Value.ToString();
+                shortcut.IconLocation = @"C:\Windows\system32\shell32.dll,117";
+                shortcut.TargetPath = FolderVLC+"\\vlc.exe";
+                shortcut.Arguments = vlc_cmd_line + CamStream[0].ToString() + " " + CamStream[1].ToString() + " " + CamStream[2].ToString();
+                shortcut.Save();                
+            }
+            if (checkBox_AutoStart.Checked)
+            {
+                
+                WshShell shell = new WshShell();
+                IWshShortcut shortcut = shell.CreateShortcut(System.Environment.GetFolderPath(Environment.SpecialFolder.CommonStartup) + "\\" + dataGridView1.CurrentRow.Cells[1].Value.ToString() + ".lnk");
+                shortcut.Description = dataGridView1.CurrentRow.Cells[1].Value.ToString();
+                shortcut.IconLocation = @"C:\Windows\system32\shell32.dll,117";
+                shortcut.TargetPath = FolderVLC + "\\vlc.exe";
+                shortcut.Arguments = vlc_cmd_line + CamStream[0].ToString() + " " + CamStream[1].ToString() + " " + CamStream[2].ToString();
+                shortcut.Save();
+
+
 
             }
 
@@ -181,7 +287,10 @@ namespace IPcam
             return str;
         }
 
+        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
+        }
     }
 }
 

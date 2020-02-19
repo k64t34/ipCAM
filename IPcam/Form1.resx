@@ -123,13 +123,25 @@
   <metadata name="Title.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="id.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="Title.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
   <metadata name="dataSet1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAICAEAAAAAADoAgAAFgAAACgAAAAgAAAAQAAAAAEABAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAACAAACAAAAAgIAAgAAAAIAAgACAgAAAgICAAMDAwAAAAP8AAP8AAAD//wD/AAAA/wD/AP//
+        AAD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAMAAA
+        AAAAAAAAAAAAAAAAADAAAAAAEQAAAAAAA3EAAAAwAAAHAHdxAAAAABd3B4hwMAAAeAN3dzAAAAAHdwAR
+        ADAAAIAXMQA3MAAAABAAAAAwAAAAAAB3ADcQAHAAAAAAMAAAAHiP/4cAMxAwAAAAADAAd4////93hwFz
+        AAAAAAAAAP//////d3+AA3MAAAAAAAB4////+IeHeHADcQAAAAAAAH////B3dwh4cBMAAAAAAAAAj//4
+        eIB4f4gAAAAAAAAAAAeP//+A94949wAAAAAAAAAAB///iPf/f/+AAAAAAAAAAAAH///3eH//cAAAAAAA
+        AAAAAAj//4B/+AAAAAAAAAAAAAAAeP//j/AAAAAAAAAAAAAAAAB///9wAAAAAAAAAAAAAAAAAI/4AAAA
+        AAAAAAAAAAAAAAAHcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////////////////////////+P//
+        //j////4/z/w+PAP8ADwA+AA4AHgAOAAYADgAAH4wAAD+IAAA/gAAAD/AAAAP8AAAH/gAAB/+AAAP/4A
+        AD//gAA//8AAf//wAH///AD///8A////gf///+P//////////////////////w==
+</value>
+  </data>
 </root>
