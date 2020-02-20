@@ -1,22 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="IPcam.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
   <Profiles />
-  <Settings>
-    <Setting Name="ConnectionString" Type="(Connection string)" Scope="Application">
-      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;ConnectionString&gt;Driver={Microsoft Text Driver (*.txt; *.csv)};dbq=\\fs1-oduyu\СПАК\Эксплуатация\IPcam;defaultdir=\\fs1-oduyu\СПАК\Эксплуатация\IPcam;driverid=27;fil=text;filedsn=\\fs1-oduyu\СПАК\Эксплуатация\IPcam\cam.csv.dsn;maxbuffersize=2048;maxscanrows=8;pagetimeout=5;safetransactions=0;threads=3;uid=admin;usercommitsync=Yes&lt;/ConnectionString&gt;
-  &lt;ProviderName&gt;System.Data.Odbc&lt;/ProviderName&gt;
-&lt;/SerializableConnectionString&gt;</DesignTimeValue>
-      <Value Profile="(Default)">Driver={Microsoft Text Driver (*.txt; *.csv)};dbq=\\fs1-oduyu\СПАК\Эксплуатация\IPcam;defaultdir=\\fs1-oduyu\СПАК\Эксплуатация\IPcam;driverid=27;fil=text;filedsn=\\fs1-oduyu\СПАК\Эксплуатация\IPcam\cam.csv.dsn;maxbuffersize=2048;maxscanrows=8;pagetimeout=5;safetransactions=0;threads=3;uid=admin;usercommitsync=Yes</Value>
-    </Setting>
-    <Setting Name="ConnectionString2" Type="(Connection string)" Scope="Application">
-      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;ConnectionString&gt;Driver={Microsoft Text Driver (*.txt; *.csv)};defaultdir=C:\Users\skorik\Documents\My Projects\IPcam\IPcam\bin\Debug;driverid=27;extensions=None,asc,csv,tab,txt;fil=text;filedsn=C:\Users\skorik\Documents\My Projects\IPcam\IPcam\bin\Debug\cam.csv.dsn;maxbuffersize=2048;maxscanrows=8;pagetimeout=5;safetransactions=0;threads=3;uid=admin;usercommitsync=Yes&lt;/ConnectionString&gt;
-  &lt;ProviderName&gt;System.Data.Odbc&lt;/ProviderName&gt;
-&lt;/SerializableConnectionString&gt;</DesignTimeValue>
-      <Value Profile="(Default)">Driver={Microsoft Text Driver (*.txt; *.csv)};defaultdir=C:\Users\skorik\Documents\My Projects\IPcam\IPcam\bin\Debug;driverid=27;extensions=None,asc,csv,tab,txt;fil=text;filedsn=C:\Users\skorik\Documents\My Projects\IPcam\IPcam\bin\Debug\cam.csv.dsn;maxbuffersize=2048;maxscanrows=8;pagetimeout=5;safetransactions=0;threads=3;uid=admin;usercommitsync=Yes</Value>
-    </Setting>
-  </Settings>
+  <Settings />
 </SettingsFile>

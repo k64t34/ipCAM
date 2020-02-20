@@ -37,14 +37,21 @@ namespace IPcam
         private void Form1_Load(object sender, EventArgs e)
         {
 
+            //label1.MaximumSize.Width(this.ClientSize.Width - label1.Margin.Left);
+
+            label1.Width = button_OK.Width-200;
+
+            listBox_LOG.Items.Add("Запуск "+ this.Text);
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             Version version = assembly.GetName().Version;
             this.Text = this.Text + " " + version.ToString();
+            listBox_LOG.Items.Add("Версия "+ version.ToString());
 
-			
             //PathDB = @"\\fs1-oduyu\СПАК\Эксплуатация\IPcam";
             //PathDB = @"D:\Users\Andrew\Documents\Projects\ipCAM\IPcam";
             //PathDB = @"\\t90\tmp";
+			
+			:TODO network Icon 
 #if DEBUG
 
             PathDB = System.IO.Directory.GetParent(PathDB).ToString();
@@ -53,6 +60,7 @@ namespace IPcam
             PathDB += @"\DB";
 #endif
             this.Text = this.Text + " " + PathDB;
+            listBox_LOG.Items.Add("База данных" + PathDB);
             Conn.ConnectionString = @"Provider = Microsoft.Jet.OLEDB.4.0;" +
                 @"Data source = "+ PathDB + ";" + 
                 @"Extended Properties = ""text;HDR=YES;FMT=Delimited"";";
@@ -92,7 +100,7 @@ namespace IPcam
             }
             catch (Exception ex)
 		    {
-		        MessageBox.Show("Ошибка подключения к базе данных\n"+ex.Message+"\n  "+ ex.Source+"\n"+ Conn.ConnectionString, "Установка ПО",MessageBoxButtons.OK,MessageBoxIcon.Error);		        
+		        MessageBox.Show("Ошибка подключения к базе данных\n"+ex.Message+"\n  "+ ex.Source+"\n"+ Conn.ConnectionString, this.Text, MessageBoxButtons.OK,MessageBoxIcon.Error);		        
 		        Close();
             }
 		    finally
@@ -156,42 +164,48 @@ namespace IPcam
                     }
                 }
             }
+
             ProcessStartInfo ProcessInfo;
             Process Process;
             if (needInstalVLC) {
                 listBox_LOG.Items.Add("Установка плеера VLC");//Instal VLC player            
+                MessageBox.Show("Будет произведена установка плеера VLC!\nЕсли система настроена на проверку запускаемых файлов, то нажмите \"Разрешить\".", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                                
                 ProcessInfo = new ProcessStartInfo();
-            ProcessInfo.Arguments = " /L=1033 /s";
+            
 #if DEBUG
                 PathDB = @"\\fs1-oduyu\СПАК\Эксплуатация\IPcam";
 #endif
-
-                ProcessInfo.WorkingDirectory = PathDB + "\\distrib\\";
-            ProcessInfo.FileName = "vlc-3.0.7.1-win32.exe";
+                ProcessInfo.Arguments = @"/S /L=1033 /NCRC";
+                ProcessInfo.WorkingDirectory = PathDB+"\\distrib";
+                ProcessInfo.FileName = "vlc-win32.exe";
                 listBox_LOG.Items.Add("\t"+ ProcessInfo.WorkingDirectory+ ProcessInfo.FileName+" "+ ProcessInfo.Arguments);//Instal VLC player            
                 try
                 {
                     Process = Process.Start(ProcessInfo);
+                    while (!Process.WaitForExit(1000)) {; }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Ошибка установки VLC player\n" + ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Ошибка установки VLC player\n" + ex.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
 
-
-
+            
             ProcessInfo = new ProcessStartInfo();
             ProcessInfo.Arguments = vlc_cmd_line + CamStream[0].ToString()+" "+ CamStream[1].ToString() + " "+ CamStream[2].ToString();
             ProcessInfo.WorkingDirectory = FolderVLC;
-            ProcessInfo.FileName = "vlc.exe";            
+            ProcessInfo.FileName = "vlc.exe";
+            listBox_LOG.Items.Add("Запуск плеера VLC");
+            listBox_LOG.Items.Add("\t" + ProcessInfo.WorkingDirectory + ProcessInfo.FileName + " " + ProcessInfo.Arguments);         
             try
             {
                 Process = Process.Start(ProcessInfo);
+                MessageBox.Show("Плеер запущен", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка запуска\n" + ex.Message,"", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ошибка запуска\n" + ex.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -221,7 +235,7 @@ namespace IPcam
 
 
             }
-
+            listBox_LOG.Items.Add("Остановка");
             Conn.Close();
             Close();
         }
@@ -254,10 +268,7 @@ namespace IPcam
                     CamStream[0]=CamStream[0].Replace(@"[IP]", rs["ip"].ToString());
                     
                 }
-
-                     
-
-
+                
                 rs.Close();
                 cmd.Dispose();
                 cmd = new OleDbCommand();
@@ -287,9 +298,14 @@ namespace IPcam
             return str;
         }
 
-        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void checkBox_AutoStart_CheckedChanged(object sender, EventArgs e)
         {
+            
+        }
 
+        private void checkBox_Log_CheckedChanged(object sender, EventArgs e)
+        {
+            listBox_LOG.Visible = checkBox_Log.Checked;
         }
     }
 }
