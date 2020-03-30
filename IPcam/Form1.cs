@@ -21,6 +21,7 @@ namespace IPcam
         public System.Data.OleDb.OleDbConnection Conn = new System.Data.OleDb.OleDbConnection();
         public OleDbDataAdapter adapter;
         public string[] CamStream = new string[3];
+        public string CamIP;
         const string vlc_cmd_line = " --no-repeat ";
         const string vlc_exe = "vlc.exe";
         string FolderVLC= @"c:\Program Files\VideoLAN\VLC\";
@@ -51,7 +52,7 @@ namespace IPcam
             //PathDB = @"D:\Users\Andrew\Documents\Projects\ipCAM\IPcam";
             //PathDB = @"\\t90\tmp";
 			
-			:TODO network Icon 
+			//TODO network Icon 
 #if DEBUG
 
             PathDB = System.IO.Directory.GetParent(PathDB).ToString();
@@ -268,7 +269,7 @@ namespace IPcam
                     CamStream[0]=CamStream[0].Replace(@"[IP]", rs["ip"].ToString());
                     
                 }
-                
+                CamIP = rs["ip"].ToString();
                 rs.Close();
                 cmd.Dispose();
                 cmd = new OleDbCommand();
@@ -306,6 +307,32 @@ namespace IPcam
         private void checkBox_Log_CheckedChanged(object sender, EventArgs e)
         {
             listBox_LOG.Visible = checkBox_Log.Checked;
+        }
+
+        private void button_IE_Click(object sender, EventArgs e)
+        {
+            listBox_LOG.Items.Add("Запуск Internet Explorer");
+            ProcessStartInfo ProcessInfo;
+            Process Process;
+            ProcessInfo = new ProcessStartInfo();
+            ProcessInfo.Arguments = @"http://" + CamIP;
+            //todo: Red system disk and program from environment var
+            ProcessInfo.WorkingDirectory = @"c:\Program Files\internet explorer";
+            ProcessInfo.FileName = "iexplore.exe";
+            listBox_LOG.Items.Add("Запуск IE");
+            listBox_LOG.Items.Add("\t" + ProcessInfo.WorkingDirectory + ProcessInfo.FileName + " " + ProcessInfo.Arguments);
+            try
+            {
+                Process = Process.Start(ProcessInfo);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка запуска\n" + ex.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                Close();
+            }
         }
     }
 }

@@ -28,18 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.checkBox_AddToDesktop = new System.Windows.Forms.CheckBox();
             this.checkBox_AutoStart = new System.Windows.Forms.CheckBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataSet1 = new System.Data.DataSet();
             this.button_OK = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.listBox_LOG = new System.Windows.Forms.ListBox();
             this.checkBox_Log = new System.Windows.Forms.CheckBox();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button_IE = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet1)).BeginInit();
             this.SuspendLayout();
@@ -77,14 +78,14 @@
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.id,
             this.Title});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.ButtonShadow;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.ButtonShadow;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.Location = new System.Drawing.Point(18, 21);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(9, 11, 9, 11);
             this.dataGridView1.MultiSelect = false;
@@ -93,6 +94,20 @@
             this.dataGridView1.RowTemplate.Height = 32;
             this.dataGridView1.Size = new System.Drawing.Size(283, 327);
             this.dataGridView1.TabIndex = 3;
+            // 
+            // id
+            // 
+            this.id.HeaderText = "id";
+            this.id.Name = "id";
+            this.id.ReadOnly = true;
+            this.id.Visible = false;
+            // 
+            // Title
+            // 
+            this.Title.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Title.HeaderText = "Title";
+            this.Title.Name = "Title";
+            this.Title.ReadOnly = true;
             // 
             // dataSet1
             // 
@@ -106,15 +121,14 @@
             this.button_OK.Margin = new System.Windows.Forms.Padding(20);
             this.button_OK.Name = "button_OK";
             this.button_OK.Size = new System.Drawing.Size(744, 30);
-            this.button_OK.TabIndex = 4;
-            this.button_OK.Text = "OK";
+            this.button_OK.TabIndex = 10;
+            this.button_OK.Text = "VLC";
             this.button_OK.UseVisualStyleBackColor = false;
             this.button_OK.Click += new System.EventHandler(this.button_OK_Click);
             // 
             // label1
             // 
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.label1.Font = new System.Drawing.Font("Lucida Console", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label1.Location = new System.Drawing.Point(18, 356);
@@ -150,19 +164,18 @@
             this.checkBox_Log.UseVisualStyleBackColor = true;
             this.checkBox_Log.CheckedChanged += new System.EventHandler(this.checkBox_Log_CheckedChanged);
             // 
-            // id
+            // button_IE
             // 
-            this.id.HeaderText = "id";
-            this.id.Name = "id";
-            this.id.ReadOnly = true;
-            this.id.Visible = false;
-            // 
-            // Title
-            // 
-            this.Title.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Title.HeaderText = "Title";
-            this.Title.Name = "Title";
-            this.Title.ReadOnly = true;
+            this.button_IE.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.button_IE.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_IE.Location = new System.Drawing.Point(18, 476);
+            this.button_IE.Margin = new System.Windows.Forms.Padding(20);
+            this.button_IE.Name = "button_IE";
+            this.button_IE.Size = new System.Drawing.Size(744, 30);
+            this.button_IE.TabIndex = 11;
+            this.button_IE.Text = "Internet Explorer";
+            this.button_IE.UseVisualStyleBackColor = false;
+            this.button_IE.Click += new System.EventHandler(this.button_IE_Click);
             // 
             // Form1
             // 
@@ -170,6 +183,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(780, 557);
+            this.Controls.Add(this.button_IE);
             this.Controls.Add(this.checkBox_Log);
             this.Controls.Add(this.listBox_LOG);
             this.Controls.Add(this.label1);
@@ -201,13 +215,14 @@
         private System.Windows.Forms.CheckBox checkBox_AddToDesktop;
         private System.Windows.Forms.CheckBox checkBox_AutoStart;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Data.DataSet dataSet1;
-        private System.Windows.Forms.Button button_OK;
+        private System.Data.DataSet dataSet1;        
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ListBox listBox_LOG;
         private System.Windows.Forms.CheckBox checkBox_Log;
         private System.Windows.Forms.DataGridViewTextBoxColumn id;
         private System.Windows.Forms.DataGridViewTextBoxColumn Title;
+        private System.Windows.Forms.Button button_OK;
+        private System.Windows.Forms.Button button_IE;
     }
 }
 
