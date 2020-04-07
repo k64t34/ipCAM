@@ -61,12 +61,32 @@ namespace IPcam.Properties {
         }
         
         /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap internet_explorer_15521 {
+            get {
+                object obj = ResourceManager.GetObject("internet_explorer_15521", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Icon, аналогичного (Значок).
         /// </summary>
         internal static System.Drawing.Icon IPcam_ico {
             get {
                 object obj = ResourceManager.GetObject("IPcam.ico", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap vlc_14658 {
+            get {
+                object obj = ResourceManager.GetObject("vlc_14658", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

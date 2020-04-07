@@ -1,4 +1,5 @@
-﻿using System;
+﻿//https://icon-icons.com/
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -40,7 +41,7 @@ namespace IPcam
 
             //label1.MaximumSize.Width(this.ClientSize.Width - label1.Margin.Left);
 
-            label1.Width = button_OK.Width-200;
+            //label1.Width = button_VLC.Width-200;
 
             listBox_LOG.Items.Add("Запуск "+ this.Text);
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
