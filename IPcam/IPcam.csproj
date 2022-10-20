@@ -142,6 +142,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="IPcam.ico" />
+    <None Include="Resources\PotPlayer.png" />
     <None Include="Resources\vlc_14658.png" />
     <None Include="Resources\internet_explorer_15521.png" />
     <None Include="Properties\IPcam.ico" />

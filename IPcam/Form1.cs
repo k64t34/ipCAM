@@ -336,6 +336,11 @@ namespace IPcam
                 Close();
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            listBox_LOG.Items.Add("Поиск в реестре записей об установленном плеере PotPlayer");
+        }
     }
 }
 
