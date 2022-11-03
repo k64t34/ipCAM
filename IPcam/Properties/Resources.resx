@@ -127,6 +127,9 @@
   <data name="PotPlayer" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PotPlayer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="status_unknown" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\status_unknown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="vlc_14658" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\vlc_14658.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

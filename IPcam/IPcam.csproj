@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>IPcam</RootNamespace>
     <AssemblyName>IPcam</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -142,6 +142,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="IPcam.ico" />
+    <None Include="Resources\status_unknown.png" />
     <None Include="Resources\PotPlayer.png" />
     <None Include="Resources\vlc_14658.png" />
     <None Include="Resources\internet_explorer_15521.png" />

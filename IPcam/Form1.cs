@@ -81,10 +81,12 @@ namespace IPcam
             //PathDB = @"\\fs1-oduyu\СПАК\Эксплуатация\IPcam";
             //PathDB = @"D:\Users\Andrew\Documents\Projects\ipCAM\IPcam";
             //PathDB = @"\\t90\tmp";
-			
-			//TODO network Icon 
+
+            //TODO network Icon 
 #if DEBUG
 
+            this.Width = 1200;
+            listBox_LOG.Width = this.Width - listBox_LOG.Left-listBox_LOG.Margin.Right;
             PathDB = System.IO.Directory.GetParent(PathDB).ToString();
             PathDB = System.IO.Directory.GetParent(PathDB).ToString();
             PathDB = System.IO.Directory.GetParent(PathDB).ToString();
@@ -109,20 +111,36 @@ namespace IPcam
                     {
                     var bytes = Encoding.Convert(Encoding.Unicode, Encoding.GetEncoding(1251), Encoding.Unicode.GetBytes(row[iTitle].ToString()));
                     row[iTitle] = Encoding.UTF8.GetString(bytes);
-                }
+                    }
                 dataGridView1.AutoGenerateColumns = false;
                 dataGridView1.BackgroundColor = this.BackColor;
                 dataGridView1.RowHeadersVisible = false;
                 dataGridView1.ColumnHeadersVisible = false;
-                dataGridView1.RowHeadersWidthSizeMode =DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+                dataGridView1.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
                 dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
                 dataGridView1.AllowUserToResizeRows = false;
                 dataGridView1.BorderStyle = BorderStyle.None;
                 dataGridView1.DataSource = dataSet1.Tables[0];
                 dataGridView1.Columns[1].DataPropertyName = "title";
-                dataGridView1.Columns[0].DataPropertyName = "id";                
+                dataGridView1.Columns[0].DataPropertyName = "id";
                 dataGridView1.CurrentCellChanged += new System.EventHandler(DataGridView1CurrentCellChanged);
-                DataGridView1CurrentCellChanged(dataGridView1,null);
+                DataGridView1CurrentCellChanged(dataGridView1, null);
+                               
+
+                DataGridViewImageColumn status_Icon = new DataGridViewImageColumn();
+                status_Icon.Name = "status_Icon";                
+                status_Icon.Image = global::IPcam.Properties.Resources.status_unknown;
+                dataGridView1.Columns.Add(status_Icon);                
+                dataGridView1.Columns[2].Width = 32;
+                dataGridView1.Columns[2].MinimumWidth = 32;
+                dataGridView1.Columns[2].DisplayIndex = 1;
+                dataGridView1.Columns[2].ReadOnly = true;
+                dataGridView1.Columns[2].Resizable = DataGridViewTriState.False;
+
+                (DataGridViewImageColumn)(dataGridView1.Rows[1].Cells[2]).Image = global::IPcam.Properties.Resources.vlc_14658;
+
+
+
             }
             catch (Exception ex)
 		    {
@@ -369,11 +387,11 @@ namespace IPcam
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button_PP_Click(object sender, EventArgs e)
         {
             P = new Player(
                 "PotPlayer",
-                 @"SOFTWARE\daum",
+                 @"SOFTWARE\DAUM\PotPlayer64",
                 "ProgramPath",
                 "",
                 "",
@@ -382,8 +400,10 @@ namespace IPcam
                 "PotPlayerSetup64.exe",
                 ""
                 );
-            //@"SOFTWARE\DAUM\PotPlayer64",
-
+            OpenCam();
+        }
+        void OpenCam()
+        {
             /*P = new Player(
                 "VLC",
                 @"SOFTWARE\VideoLAN\VLC",
@@ -401,53 +421,25 @@ namespace IPcam
             listBox_LOG.Items.Add("Поиск в реестре записей об установленном плеере "+P.Name);
             bool needInstalPlayer = false;
             needInstalPlayer = true;
-            RegistryKey RegKeyPlayerPath = Registry.LocalMachine.OpenSubKey(P.RegistryPath64,false);            
-            if (RegKeyPlayerPath != null)
-            {
-                listBox_LOG.Items.Add(P.RegistryPath64+"\\"+P.RegistryParameter64);
-                RegistryValueKind rvkInstallDir = RegKeyPlayerPath.GetValueKind(P.RegistryParameter64);
-                if (rvkInstallDir == RegistryValueKind.String)
-                {
-                    string vInstallDir = RegKeyPlayerPath.GetValue(P.RegistryParameter64).ToString();
-                    if (vInstallDir != null)
-                    {
-                        listBox_LOG.Items.Add(P.RegistryPath64 + "\\" + P.RegistryParameter64+"="+ vInstallDir);
-                        if (System.IO.File.Exists(vInstallDir))
-                        {
-                            P.Player_Folder = System.IO.Path.GetDirectoryName(vInstallDir);                            
-                            P.Player_exe=Path.GetFileName(vInstallDir);
-                        }
-                        else if (System.IO.Directory.Exists(vInstallDir))
-                        {
-                            P.Player_Folder = vInstallDir;
-                            if (System.IO.File.Exists(P.Player_Folder + "\\" + P.Player_exe))
-                            {                                
-                                needInstalPlayer = false;
-                            }
-                        }
-                    }
-                }
-            }
-            #endregion
-            #region Check for 32bit version player
-            listBox_LOG.Items.Add(P.Player_Folder + "|" + P.Player_exe);
-            if (needInstalPlayer)
-            {
-                RegKeyPlayerPath = Registry.LocalMachine.OpenSubKey(P.RegistryPath,false);
+            var HKLM = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
+            if (HKLM != null) 
+            { 
+                RegistryKey RegKeyPlayerPath = HKLM.OpenSubKey(P.RegistryPath64);
                 if (RegKeyPlayerPath != null)
                 {
-                    listBox_LOG.Items.Add(P.RegistryPath + "\\" + P.RegistryParameter);
-                    RegistryValueKind rvkInstallDir = RegKeyPlayerPath.GetValueKind(P.RegistryParameter);
+                    listBox_LOG.Items.Add(P.RegistryPath64 + "\\" + P.RegistryParameter64);
+                    RegistryValueKind rvkInstallDir = RegKeyPlayerPath.GetValueKind(P.RegistryParameter64);
                     if (rvkInstallDir == RegistryValueKind.String)
                     {
-                        string vInstallDir = RegKeyPlayerPath.GetValue(P.RegistryParameter).ToString();
+                        string vInstallDir = RegKeyPlayerPath.GetValue(P.RegistryParameter64).ToString();
                         if (vInstallDir != null)
                         {
-                            listBox_LOG.Items.Add(P.RegistryPath + "\\" + P.RegistryParameter + "=" + vInstallDir);
+                            listBox_LOG.Items.Add(P.RegistryPath64 + "\\" + P.RegistryParameter64 + "=" + vInstallDir);
                             if (System.IO.File.Exists(vInstallDir))
                             {
                                 P.Player_Folder = System.IO.Path.GetDirectoryName(vInstallDir);
                                 P.Player_exe = Path.GetFileName(vInstallDir);
+                                needInstalPlayer = false;
                             }
                             else if (System.IO.Directory.Exists(vInstallDir))
                             {
@@ -459,7 +451,48 @@ namespace IPcam
                             }
                         }
                     }
+                    RegKeyPlayerPath.Close();
                 }
+                HKLM.Close();
+            }
+            #endregion
+            #region Check for 32bit version player
+            listBox_LOG.Items.Add(P.Player_Folder + "|" + P.Player_exe);
+            if (needInstalPlayer)
+            {
+                HKLM = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32);
+                if (HKLM != null)
+                {
+                    RegistryKey RegKeyPlayerPath = HKLM.OpenSubKey(P.RegistryPath);
+                    if (RegKeyPlayerPath != null)
+                    {
+                    listBox_LOG.Items.Add(P.RegistryPath + "\\" + P.RegistryParameter);
+                    RegistryValueKind rvkInstallDir = RegKeyPlayerPath.GetValueKind(P.RegistryParameter);
+                        if (rvkInstallDir == RegistryValueKind.String)
+                        {
+                            string vInstallDir = RegKeyPlayerPath.GetValue(P.RegistryParameter).ToString();
+                            if (vInstallDir != null)
+                            {
+                                listBox_LOG.Items.Add(P.RegistryPath + "\\" + P.RegistryParameter + "=" + vInstallDir);
+                                if (System.IO.File.Exists(vInstallDir))
+                                {
+                                    P.Player_Folder = System.IO.Path.GetDirectoryName(vInstallDir);
+                                    P.Player_exe = Path.GetFileName(vInstallDir);
+                                }
+                                else if (System.IO.Directory.Exists(vInstallDir))
+                                {
+                                    P.Player_Folder = vInstallDir;
+                                    if (System.IO.File.Exists(P.Player_Folder + "\\" + P.Player_exe))
+                                    {
+                                        needInstalPlayer = false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    RegKeyPlayerPath.Close();
+                }
+                HKLM.Close();
             }
             #endregion
             ProcessStartInfo ProcessInfo;

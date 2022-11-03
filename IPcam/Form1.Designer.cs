@@ -30,12 +30,9 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.checkBox_AddToDesktop = new System.Windows.Forms.CheckBox();
             this.checkBox_AutoStart = new System.Windows.Forms.CheckBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataSet1 = new System.Data.DataSet();
             this.listBox_LOG = new System.Windows.Forms.ListBox();
             this.checkBox_Log = new System.Windows.Forms.CheckBox();
@@ -43,6 +40,8 @@
             this.button_VLC = new System.Windows.Forms.Button();
             this.button_PP = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet1)).BeginInit();
             this.SuspendLayout();
@@ -107,23 +106,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(283, 327);
             this.dataGridView1.TabIndex = 1;
             // 
-            // id
-            // 
-            this.id.HeaderText = "id";
-            this.id.MinimumWidth = 6;
-            this.id.Name = "id";
-            this.id.ReadOnly = true;
-            this.id.Visible = false;
-            this.id.Width = 125;
-            // 
-            // Title
-            // 
-            this.Title.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Title.HeaderText = "Title";
-            this.Title.MinimumWidth = 6;
-            this.Title.Name = "Title";
-            this.Title.ReadOnly = true;
-            // 
             // dataSet1
             // 
             this.dataSet1.DataSetName = "NewDataSet";
@@ -139,12 +121,10 @@
             this.listBox_LOG.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.listBox_LOG.Name = "listBox_LOG";
             this.listBox_LOG.ScrollAlwaysVisible = true;
-            this.listBox_LOG.Size = new System.Drawing.Size(669, 202);
+            this.listBox_LOG.Size = new System.Drawing.Size(448, 180);
             this.listBox_LOG.TabIndex = 7;
             this.listBox_LOG.Visible = false;
-#if DEBUG
             this.listBox_LOG.SelectedIndexChanged += new System.EventHandler(this.listBox_LOG_SelectedIndexChanged);
-#endif
             // 
             // checkBox_Log
             // 
@@ -167,7 +147,7 @@
             this.button_IE.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button_IE.Location = new System.Drawing.Point(18, 472);
             this.button_IE.Name = "button_IE";
-            this.button_IE.Size = new System.Drawing.Size(966, 32);
+            this.button_IE.Size = new System.Drawing.Size(743, 32);
             this.button_IE.TabIndex = 13;
             this.button_IE.Text = "Internet Explorer";
             this.button_IE.UseVisualStyleBackColor = true;
@@ -182,7 +162,7 @@
             this.button_VLC.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button_VLC.Location = new System.Drawing.Point(18, 504);
             this.button_VLC.Name = "button_VLC";
-            this.button_VLC.Size = new System.Drawing.Size(966, 32);
+            this.button_VLC.Size = new System.Drawing.Size(743, 32);
             this.button_VLC.TabIndex = 14;
             this.button_VLC.Text = "VLC";
             this.button_VLC.UseVisualStyleBackColor = true;
@@ -198,11 +178,11 @@
             this.button_PP.Location = new System.Drawing.Point(18, 440);
             this.button_PP.Margin = new System.Windows.Forms.Padding(0);
             this.button_PP.Name = "button_PP";
-            this.button_PP.Size = new System.Drawing.Size(966, 32);
+            this.button_PP.Size = new System.Drawing.Size(743, 32);
             this.button_PP.TabIndex = 15;
             this.button_PP.Text = "PotPlayer";
             this.button_PP.UseVisualStyleBackColor = true;
-            this.button_PP.Click += new System.EventHandler(this.button1_Click);
+            this.button_PP.Click += new System.EventHandler(this.button_PP_Click);
             // 
             // label1
             // 
@@ -213,17 +193,34 @@
             this.label1.Margin = new System.Windows.Forms.Padding(20);
             this.label1.Name = "label1";
             this.label1.Padding = new System.Windows.Forms.Padding(10);
-            this.label1.Size = new System.Drawing.Size(966, 150);
+            this.label1.Size = new System.Drawing.Size(743, 150);
             this.label1.TabIndex = 17;
             this.label1.Text = "Дополнительная информация";
             this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // id
+            // 
+            this.id.HeaderText = "id";
+            this.id.MinimumWidth = 6;
+            this.id.Name = "id";
+            this.id.ReadOnly = true;
+            this.id.Visible = false;
+            this.id.Width = 125;
+            // 
+            // Title
+            // 
+            this.Title.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Title.HeaderText = "Title";
+            this.Title.MinimumWidth = 6;
+            this.Title.Name = "Title";
+            this.Title.ReadOnly = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.ClientSize = new System.Drawing.Size(1002, 557);
+            this.ClientSize = new System.Drawing.Size(779, 557);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button_PP);
             this.Controls.Add(this.checkBox_Log);
@@ -236,7 +233,6 @@
             this.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(204)))));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -261,12 +257,12 @@
         private System.Data.DataSet dataSet1;        
         private System.Windows.Forms.ListBox listBox_LOG;
         private System.Windows.Forms.CheckBox checkBox_Log;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Title;
         private System.Windows.Forms.Button button_IE;
         private System.Windows.Forms.Button button_VLC;
         private System.Windows.Forms.Button button_PP;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Title;
     }
 }
 
