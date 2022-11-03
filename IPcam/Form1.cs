@@ -19,14 +19,42 @@ namespace IPcam
     
     public partial class Form1 : Form
     {
+        class Player
+        {
+            public String Name;
+            public String RegistryPath64;
+            public String RegistryPath;
+            public String RegistryParameter64;
+            public String RegistryParameter;
+            public String Player_Folder;
+            public String Player_exe;
+            public String Player_commandline;
+            public String Player_distrib_exe;
+            public String Player_distrib_exe_commandline;
+            public Player(string Name) { this.Name = Name.Trim(); }
+            public Player(string Name, string RegistryPath64="", string RegistryParameter64="", string RegistryPath = "", string RegistryParameter = "",string Player_exe="", string Player_commandline="",string Player_distrib_exe="",string Player_distrib_exe_commandline="") 
+                {
+                this.Name = Name.Trim();
+                this.RegistryPath64 = RegistryPath64.Trim();
+                this.RegistryParameter64 = RegistryParameter64.Trim();
+                this.RegistryPath = RegistryPath.Trim();
+                this.RegistryParameter = RegistryParameter.Trim();
+                this.Player_exe = Player_exe.Trim();
+                this.Player_commandline = Player_commandline.Trim();
+                if (this.RegistryPath.Length == 0) this.RegistryPath = this.RegistryPath64;
+                if (this.RegistryParameter.Length == 0) this.RegistryParameter = this.RegistryParameter64;
+                this.Player_distrib_exe = Player_distrib_exe;
+                this.Player_distrib_exe_commandline = Player_distrib_exe_commandline;
+            }
+            //public RegistryCheck() {; }
+        }
+
         public string PathDB = Path.GetDirectoryName(Application.ExecutablePath);
         public System.Data.OleDb.OleDbConnection Conn = new System.Data.OleDb.OleDbConnection();
         public OleDbDataAdapter adapter;
         public string[] CamStream = new string[3];
         public string CamIP;
-        const string vlc_cmd_line = " --no-repeat ";
-        const string vlc_exe = "vlc.exe";
-        string FolderVLC= @"c:\Program Files\VideoLAN\VLC\";
+        Player P;
         public Form1()
         {
             InitializeComponent();
@@ -82,7 +110,6 @@ namespace IPcam
                     var bytes = Encoding.Convert(Encoding.Unicode, Encoding.GetEncoding(1251), Encoding.Unicode.GetBytes(row[iTitle].ToString()));
                     row[iTitle] = Encoding.UTF8.GetString(bytes);
                 }
-
                 dataGridView1.AutoGenerateColumns = false;
                 dataGridView1.BackgroundColor = this.BackColor;
                 dataGridView1.RowHeadersVisible = false;
@@ -96,27 +123,32 @@ namespace IPcam
                 dataGridView1.Columns[0].DataPropertyName = "id";                
                 dataGridView1.CurrentCellChanged += new System.EventHandler(DataGridView1CurrentCellChanged);
                 DataGridView1CurrentCellChanged(dataGridView1,null);
-
-
-
-
             }
             catch (Exception ex)
 		    {
 		        MessageBox.Show("Ошибка подключения к базе данных\n"+ex.Message+"\n  "+ ex.Source+"\n"+ Conn.ConnectionString, this.Text, MessageBoxButtons.OK,MessageBoxIcon.Error);		        
 		        Close();
             }
-		    finally
-		    {
-		        
-		    }
-                                 
+		    finally{}                                 
         }
-
-       
+        private void label1_Click(object sender, EventArgs e)
+        {
+            Label label = sender as Label;
+            if (label != null)            {                Clipboard.SetText(label.Text, TextDataFormat.UnicodeText);            }
+        }
+#if DEBUG
+        private void listBox_LOG_SelectedIndexChanged(object sender, EventArgs e)
+        {            
+            Clipboard.SetText(listBox_LOG.SelectedItem.ToString(), TextDataFormat.UnicodeText);            
+        }
+#endif
 
         private void button_OK_Click(object sender, EventArgs e)
         {
+            const string vlc_cmd_line = " --no-repeat ";
+            const string vlc_exe = "vlc.exe";
+            string FolderVLC = @"c:\Program Files\VideoLAN\VLC\";
+
             listBox_LOG.Items.Add("Поиск в реестре записей об установленном плеере VLC");
             //Read registry to find  path to VLC player
             //Компьютер\HKEY_LOCAL_MACHINE\SOFTWARE\VideoLAN\VLC            
@@ -339,8 +371,181 @@ namespace IPcam
 
         private void button1_Click(object sender, EventArgs e)
         {
-            listBox_LOG.Items.Add("Поиск в реестре записей об установленном плеере PotPlayer");
+            P = new Player(
+                "PotPlayer",
+                 @"SOFTWARE\daum",
+                "ProgramPath",
+                "",
+                "",
+                "PotPlayerMini64.exe",
+                CamStream[0].ToString() + " " + CamStream[1].ToString() + " " + CamStream[2].ToString(),
+                "PotPlayerSetup64.exe",
+                ""
+                );
+            //@"SOFTWARE\DAUM\PotPlayer64",
+
+            /*P = new Player(
+                "VLC",
+                @"SOFTWARE\VideoLAN\VLC",
+                "InstallDir",
+                @"software\WOW6432Node\videolan\vlc",
+                "",
+                "vlc.exe",
+                CamStream[0].ToString() + " " + CamStream[1].ToString() + " " + CamStream[2].ToString()
+                "vlc-win64.exe",
+                @"/S /L=1033 /NCRC";
+                );*/
+
+
+            #region Check for 64bit version player
+            listBox_LOG.Items.Add("Поиск в реестре записей об установленном плеере "+P.Name);
+            bool needInstalPlayer = false;
+            needInstalPlayer = true;
+            RegistryKey RegKeyPlayerPath = Registry.LocalMachine.OpenSubKey(P.RegistryPath64,false);            
+            if (RegKeyPlayerPath != null)
+            {
+                listBox_LOG.Items.Add(P.RegistryPath64+"\\"+P.RegistryParameter64);
+                RegistryValueKind rvkInstallDir = RegKeyPlayerPath.GetValueKind(P.RegistryParameter64);
+                if (rvkInstallDir == RegistryValueKind.String)
+                {
+                    string vInstallDir = RegKeyPlayerPath.GetValue(P.RegistryParameter64).ToString();
+                    if (vInstallDir != null)
+                    {
+                        listBox_LOG.Items.Add(P.RegistryPath64 + "\\" + P.RegistryParameter64+"="+ vInstallDir);
+                        if (System.IO.File.Exists(vInstallDir))
+                        {
+                            P.Player_Folder = System.IO.Path.GetDirectoryName(vInstallDir);                            
+                            P.Player_exe=Path.GetFileName(vInstallDir);
+                        }
+                        else if (System.IO.Directory.Exists(vInstallDir))
+                        {
+                            P.Player_Folder = vInstallDir;
+                            if (System.IO.File.Exists(P.Player_Folder + "\\" + P.Player_exe))
+                            {                                
+                                needInstalPlayer = false;
+                            }
+                        }
+                    }
+                }
+            }
+            #endregion
+            #region Check for 32bit version player
+            listBox_LOG.Items.Add(P.Player_Folder + "|" + P.Player_exe);
+            if (needInstalPlayer)
+            {
+                RegKeyPlayerPath = Registry.LocalMachine.OpenSubKey(P.RegistryPath,false);
+                if (RegKeyPlayerPath != null)
+                {
+                    listBox_LOG.Items.Add(P.RegistryPath + "\\" + P.RegistryParameter);
+                    RegistryValueKind rvkInstallDir = RegKeyPlayerPath.GetValueKind(P.RegistryParameter);
+                    if (rvkInstallDir == RegistryValueKind.String)
+                    {
+                        string vInstallDir = RegKeyPlayerPath.GetValue(P.RegistryParameter).ToString();
+                        if (vInstallDir != null)
+                        {
+                            listBox_LOG.Items.Add(P.RegistryPath + "\\" + P.RegistryParameter + "=" + vInstallDir);
+                            if (System.IO.File.Exists(vInstallDir))
+                            {
+                                P.Player_Folder = System.IO.Path.GetDirectoryName(vInstallDir);
+                                P.Player_exe = Path.GetFileName(vInstallDir);
+                            }
+                            else if (System.IO.Directory.Exists(vInstallDir))
+                            {
+                                P.Player_Folder = vInstallDir;
+                                if (System.IO.File.Exists(P.Player_Folder + "\\" + P.Player_exe))
+                                {
+                                    needInstalPlayer = false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            #endregion
+            ProcessStartInfo ProcessInfo;
+            Process Process;
+            #region Install player
+            if (needInstalPlayer)
+            {
+                listBox_LOG.Items.Add("Установка плеера VLC");
+                MessageBox.Show("Будет произведена установка плеера \nЕсли система настроена на проверку запускаемых файлов, то нажмите \"Разрешить\".", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                ProcessInfo = new ProcessStartInfo();
+
+#if DEBUG
+                PathDB = @"\\fs1-oduyu\СПАК\Эксплуатация\IPcam";
+#endif
+                ProcessInfo.Arguments = P.Player_distrib_exe_commandline;
+                ProcessInfo.WorkingDirectory = PathDB + "\\distrib";
+                ProcessInfo.FileName = P.Player_distrib_exe;
+                listBox_LOG.Items.Add("\t" + ProcessInfo.WorkingDirectory + ProcessInfo.FileName + " " + ProcessInfo.Arguments);//Instal VLC player            
+                try
+                {
+                    Process = Process.Start(ProcessInfo);
+                    while (!Process.WaitForExit(1000)) {; }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка установки player\n" + ex.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            #endregion
+            #region Run player
+            ProcessInfo = new ProcessStartInfo();
+            ProcessInfo.Arguments = P.Player_commandline;
+            ProcessInfo.WorkingDirectory = P.Player_Folder;
+            ProcessInfo.FileName = P.Player_exe;
+            listBox_LOG.Items.Add("Запуск плеера");
+            listBox_LOG.Items.Add("\t" + ProcessInfo.WorkingDirectory + ProcessInfo.FileName + " " + ProcessInfo.Arguments);
+            try
+            {
+                Process = Process.Start(ProcessInfo);
+                MessageBox.Show("Плеер запущен", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка запуска\n" + ex.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+            }
+
+            #endregion
+            #region Add shutcut to desktop
+            if (checkBox_AddToDesktop.Checked)
+            {
+                listBox_LOG.Items.Add("Создание ярлыка");
+                listBox_LOG.Items.Add(System.Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory) + "\\" + dataGridView1.CurrentRow.Cells[1].Value.ToString() + ".lnk");
+                WshShell shell = new WshShell();
+                IWshShortcut shortcut = shell.CreateShortcut(System.Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory) + "\\" + dataGridView1.CurrentRow.Cells[1].Value.ToString() + ".lnk");
+                shortcut.Description = dataGridView1.CurrentRow.Cells[1].Value.ToString();
+                shortcut.IconLocation = @"C:\Windows\system32\shell32.dll,117";
+                shortcut.TargetPath = P.Player_Folder + "\\" + P.Player_exe;
+                shortcut.Arguments = P.Player_commandline;
+                shortcut.Save();
+            }
+            #endregion
+            #region Add autostart 
+            if (checkBox_AutoStart.Checked)
+            {
+                listBox_LOG.Items.Add("Создание ярлыка");
+                listBox_LOG.Items.Add(System.Environment.GetFolderPath(Environment.SpecialFolder.CommonStartup) + "\\" + dataGridView1.CurrentRow.Cells[1].Value.ToString() + ".lnk");
+                WshShell shell = new WshShell();
+                IWshShortcut shortcut = shell.CreateShortcut(System.Environment.GetFolderPath(Environment.SpecialFolder.CommonStartup) + "\\" + dataGridView1.CurrentRow.Cells[1].Value.ToString() + ".lnk");
+                shortcut.Description = dataGridView1.CurrentRow.Cells[1].Value.ToString();
+                shortcut.IconLocation = @"C:\Windows\system32\shell32.dll,117";
+                shortcut.TargetPath = P.Player_Folder + "\\"+P.Player_exe;
+                shortcut.Arguments = P.Player_commandline;
+                shortcut.Save();
+            }
+            #endregion
+            listBox_LOG.Items.Add("Остановка");
+            Conn.Close();
+            //Close();
+            
         }
+
+        
     }
 }
 

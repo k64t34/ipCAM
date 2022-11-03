@@ -37,12 +37,12 @@
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataSet1 = new System.Data.DataSet();
-            this.label1 = new System.Windows.Forms.Label();
             this.listBox_LOG = new System.Windows.Forms.ListBox();
             this.checkBox_Log = new System.Windows.Forms.CheckBox();
             this.button_IE = new System.Windows.Forms.Button();
             this.button_VLC = new System.Windows.Forms.Button();
             this.button_PP = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet1)).BeginInit();
             this.SuspendLayout();
@@ -128,19 +128,6 @@
             // 
             this.dataSet1.DataSetName = "NewDataSet";
             // 
-            // label1
-            // 
-            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label1.Font = new System.Drawing.Font("Lucida Console", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(18, 322);
-            this.label1.Margin = new System.Windows.Forms.Padding(20);
-            this.label1.Name = "label1";
-            this.label1.Padding = new System.Windows.Forms.Padding(10);
-            this.label1.Size = new System.Drawing.Size(744, 150);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Дополнительная информация";
-            // 
             // listBox_LOG
             // 
             this.listBox_LOG.BackColor = System.Drawing.SystemColors.WindowFrame;
@@ -151,9 +138,13 @@
             this.listBox_LOG.Location = new System.Drawing.Point(313, 110);
             this.listBox_LOG.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.listBox_LOG.Name = "listBox_LOG";
-            this.listBox_LOG.Size = new System.Drawing.Size(449, 202);
+            this.listBox_LOG.ScrollAlwaysVisible = true;
+            this.listBox_LOG.Size = new System.Drawing.Size(669, 202);
             this.listBox_LOG.TabIndex = 7;
             this.listBox_LOG.Visible = false;
+#if DEBUG
+            this.listBox_LOG.SelectedIndexChanged += new System.EventHandler(this.listBox_LOG_SelectedIndexChanged);
+#endif
             // 
             // checkBox_Log
             // 
@@ -176,7 +167,7 @@
             this.button_IE.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button_IE.Location = new System.Drawing.Point(18, 472);
             this.button_IE.Name = "button_IE";
-            this.button_IE.Size = new System.Drawing.Size(744, 32);
+            this.button_IE.Size = new System.Drawing.Size(966, 32);
             this.button_IE.TabIndex = 13;
             this.button_IE.Text = "Internet Explorer";
             this.button_IE.UseVisualStyleBackColor = true;
@@ -191,7 +182,7 @@
             this.button_VLC.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button_VLC.Location = new System.Drawing.Point(18, 504);
             this.button_VLC.Name = "button_VLC";
-            this.button_VLC.Size = new System.Drawing.Size(744, 32);
+            this.button_VLC.Size = new System.Drawing.Size(966, 32);
             this.button_VLC.TabIndex = 14;
             this.button_VLC.Text = "VLC";
             this.button_VLC.UseVisualStyleBackColor = true;
@@ -204,24 +195,39 @@
             this.button_PP.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_PP.Image = global::IPcam.Properties.Resources.PotPlayer;
             this.button_PP.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button_PP.Location = new System.Drawing.Point(18, 290);
+            this.button_PP.Location = new System.Drawing.Point(18, 440);
+            this.button_PP.Margin = new System.Windows.Forms.Padding(0);
             this.button_PP.Name = "button_PP";
-            this.button_PP.Size = new System.Drawing.Size(744, 32);
+            this.button_PP.Size = new System.Drawing.Size(966, 32);
             this.button_PP.TabIndex = 15;
             this.button_PP.Text = "PotPlayer";
             this.button_PP.UseVisualStyleBackColor = true;
             this.button_PP.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // label1
+            // 
+            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.label1.Font = new System.Drawing.Font("Lucida Console", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(18, 290);
+            this.label1.Margin = new System.Windows.Forms.Padding(20);
+            this.label1.Name = "label1";
+            this.label1.Padding = new System.Windows.Forms.Padding(10);
+            this.label1.Size = new System.Drawing.Size(966, 150);
+            this.label1.TabIndex = 17;
+            this.label1.Text = "Дополнительная информация";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.ClientSize = new System.Drawing.Size(780, 557);
+            this.ClientSize = new System.Drawing.Size(1002, 557);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.button_PP);
             this.Controls.Add(this.checkBox_Log);
             this.Controls.Add(this.listBox_LOG);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.checkBox_AutoStart);
             this.Controls.Add(this.checkBox_AddToDesktop);
@@ -247,13 +253,12 @@
 
         }
 
-        #endregion
+#endregion
 
         private System.Windows.Forms.CheckBox checkBox_AddToDesktop;
         private System.Windows.Forms.CheckBox checkBox_AutoStart;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Data.DataSet dataSet1;        
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ListBox listBox_LOG;
         private System.Windows.Forms.CheckBox checkBox_Log;
         private System.Windows.Forms.DataGridViewTextBoxColumn id;
@@ -261,6 +266,7 @@
         private System.Windows.Forms.Button button_IE;
         private System.Windows.Forms.Button button_VLC;
         private System.Windows.Forms.Button button_PP;
+        private System.Windows.Forms.Label label1;
     }
 }
 
