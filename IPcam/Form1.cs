@@ -127,7 +127,7 @@ namespace IPcam
                 DataGridView1CurrentCellChanged(dataGridView1, null);
                                
 
-                DataGridViewImageColumn status_Icon = new DataGridViewImageColumn();
+                /*DataGridViewImageColumn status_Icon = new DataGridViewImageColumn();
                 status_Icon.Name = "status_Icon";                
                 status_Icon.Image = global::IPcam.Properties.Resources.status_unknown;
                 dataGridView1.Columns.Add(status_Icon);                
@@ -135,10 +135,13 @@ namespace IPcam
                 dataGridView1.Columns[2].MinimumWidth = 32;
                 dataGridView1.Columns[2].DisplayIndex = 1;
                 dataGridView1.Columns[2].ReadOnly = true;
-                dataGridView1.Columns[2].Resizable = DataGridViewTriState.False;
+                dataGridView1.Columns[2].Resizable = DataGridViewTriState.False;                
+                как менять картинку в ячейке
+                ((DataGridViewImageCell)(dataGridView1[2, 1])).Value= global::IPcam.Properties.Resources.vlc_14658;
+                или                 
+                dataGridView1[2, 1].Value = global::IPcam.Properties.Resources.vlc_14658;*/
 
-                (DataGridViewImageColumn)(dataGridView1.Rows[1].Cells[2]).Image = global::IPcam.Properties.Resources.vlc_14658;
-
+                
 
 
             }
@@ -154,12 +157,14 @@ namespace IPcam
             Label label = sender as Label;
             if (label != null)            {                Clipboard.SetText(label.Text, TextDataFormat.UnicodeText);            }
         }
-#if DEBUG
+
         private void listBox_LOG_SelectedIndexChanged(object sender, EventArgs e)
-        {            
+        {
+#if DEBUG
             Clipboard.SetText(listBox_LOG.SelectedItem.ToString(), TextDataFormat.UnicodeText);            
-        }
 #endif
+        }
+
 
         private void button_OK_Click(object sender, EventArgs e)
         {
