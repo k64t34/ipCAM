@@ -166,7 +166,7 @@
             this.button_VLC.TabIndex = 14;
             this.button_VLC.Text = "VLC";
             this.button_VLC.UseVisualStyleBackColor = true;
-            this.button_VLC.Click += new System.EventHandler(this.button_OK_Click);
+            this.button_VLC.Click += new System.EventHandler(this.button_VLC_Click);
             // 
             // button_PP
             // 

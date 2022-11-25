@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("IPcam")]
-[assembly: AssemblyCopyright("Skorikoff ©  2020")]
+[assembly: AssemblyCopyright("Skorikoff ©  2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,6 +32,6 @@ using System.Runtime.InteropServices;
 // Можно задать все значения или принять номера сборки и редакции по умолчанию 
 // используя "*", как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.20.05.0")]
-[assembly: AssemblyFileVersion("1")]
+[assembly: AssemblyVersion("1.22.11.25")]
+[assembly: AssemblyFileVersion("1.22.11.25")]
 

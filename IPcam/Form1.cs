@@ -164,10 +164,23 @@ namespace IPcam
             Clipboard.SetText(listBox_LOG.SelectedItem.ToString(), TextDataFormat.UnicodeText);            
 #endif
         }
-
-
-        private void button_OK_Click(object sender, EventArgs e)
+        private void button_VLC_Click(object sender, EventArgs e)
         {
+            P = new Player(
+               "VLC",//Player Name
+                @"software\videolan\vlc", //Registry64_Path
+               "InstallDir", //Registry64_Parameter with path to exe player file
+               "", //Registry_Path 
+               "",//Registry_Parameter with path to exe player file
+               "vlc.exe", //Player file exe
+                CamStream[0].ToString() + " " + CamStream[1].ToString() + " " + CamStream[2].ToString(), // player_command_line 
+               "vlc-win32.exe",// player distrib exe
+               @"/S /L=1033 /NCRC" //player distrib exe commandline
+               );
+            OpenCam();
+
+            PathDB = @"\\fs1-oduyu\СПАК\Эксплуатация\IPcam";
+            /*
             const string vlc_cmd_line = " --no-repeat ";
             const string vlc_exe = "vlc.exe";
             string FolderVLC = @"c:\Program Files\VideoLAN\VLC\";
@@ -295,9 +308,8 @@ namespace IPcam
             }
             listBox_LOG.Items.Add("Остановка");
             Conn.Close();
-            Close();
+            Close();*/
         }
-
 
         void DataGridView1CurrentCellChanged(object sender, EventArgs e)
         {         
@@ -347,7 +359,8 @@ namespace IPcam
             catch (Exception ex) 
             {
                 MessageBox.Show("Ошибка\n" + ex.Message + "\n  " + ex.Source + "\n", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }            
+            }       
+            
         }
         public string EliminateEnclosingQuotes(string str,char Quotes='"')
         {
@@ -579,7 +592,7 @@ namespace IPcam
             #endregion
             listBox_LOG.Items.Add("Остановка");
             Conn.Close();
-            //Close();
+            Close();
             
         }
 
