@@ -17,11 +17,14 @@ echo -e "${_color_white}mScript ${FolderScript}/${FileScript}${_color_reset}"
 [ $__DEBUG ] && echo Debug ON 
 #exec 1>>/home/camviwer/cam.log
 #exec 2>>/home/camviwer/cam.log
+
+FileDBcsv='\\yu-fs\Duty\IPcam\cam.csv'
 csv="$FolderScript/cam.csv"
 FolderDesktop="/home/$USER/Desktop"
 ShortcutPrefix='CAM_'
 FileAutorun="/home/$USER/.config/autostart/VLC.desktop"
-CommandVLC='/snap/bin/vlc --no-audio --fullscreen --loop --repeat --no-interact'
+CommandVLC='/usr/bin/vlc --no-audio --fullscreen --loop --repeat --no-interact -vvv'
+#CommandVLC='/snap/bin/vlc --no-audio --fullscreen --loop --repeat --no-interact'
 autorun=CamAutoRUN.sh
 #for test rtsp://guest:guest@10.80.20.39:554/onvif-media/media.amp?profile=quality_h264&sessiontimeout=0&streamtype=unicast
 #********************************
@@ -116,7 +119,7 @@ if ! ping -c 1 $c_ip > /dev/null 2>&1; then
 	read -n1 -t30 -s -r -p "Press any key to exit..." 
 	exit 3
 fi		
-#Подстановка IP
+#Подстановка IP	
 [ $__DEBUG ] && echo Subst
 c_url=${c_url//\[IP\]/$(stripquotes $c_ip)}
 [ $__DEBUG ] && read -t30 -n 1 -s -r -p "400"  
